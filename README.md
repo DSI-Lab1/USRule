@@ -6,6 +6,6 @@ A simple way is to run MainTestUSRule_saveToFile.java.
 **Some notes:**
 --
 - The data format used is the same as in file data.txt.
-- Additional datasets can be accessed from [SPMF][http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php].
+- Additional datasets can be accessed from [SPMF](http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php).
 
 If there are any questions, please contact me (Email: hgengsen@gmail.com).
