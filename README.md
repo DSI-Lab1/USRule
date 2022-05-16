@@ -9,7 +9,6 @@ Java programming language
 A simple way is to run MainTestUSRule_saveToFile.java.
 
 #### Benchmarks
---
 - The data format used is the same as in the file data.txt.
 - Additional datasets can be accessed from [SPMF](http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php).
 
