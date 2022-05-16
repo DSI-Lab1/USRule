@@ -1,9 +1,9 @@
 # US-Rule: Discovering Utility-driven Sequential Rules
-This repo hosts the code for paper "US-Rule: Discovering Utility-driven Sequential Rules", ACM Transactions on Knowledge Discovery from Data, Gengsen Huang, Wensheng Gan, Jian Weng, Philip S. YU, 2022.
+This repo hosts the code for paper **"US-Rule: Discovering Utility-driven Sequential Rules", ACM Transactions on Knowledge Discovery from Data, Gengsen Huang, Wensheng Gan, Jian Weng, Philip S. YU, 2022**.
 
 
 ## Requirements
-Java programming language
+Java programming language.
 
 ## Running the program
 A simple way is to run MainTestUSRule_saveToFile.java.
