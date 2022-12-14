@@ -16,7 +16,7 @@ A simple way is to run MainTestUSRule_saveToFile.java.
 If this article or code useful for your project, please refer to
 ```xml
 @article{huang2021us,
-  title={US-Rule: Discovering Utility-driven Sequential Rules},
+  title={{US-Rule}: Discovering Utility-driven Sequential Rules},
   author={Huang, Gengsen and Gan, Wensheng and Weng, Jian and Yu, Philip S},
   journal={arXiv preprint arXiv:2111.15020},
   year={2021}
