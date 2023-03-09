@@ -67,9 +67,6 @@ public class AlgoUSRule {
 	/** use bitvectors instead of array list for quickly calculating the support of a rule antecedent */
 	private boolean bitvectorOptimization = false;  
 	
-	/** this is a REUCM where the key is a item and the value is a map
-	 *  REUCM(a, b) = REUCM.get(a).get(b)
-	 */
 	private Map<Integer, HashMap<Integer, Double>> REUCM;
 	
 	/** the count of expansions */
@@ -341,8 +338,6 @@ public class AlgoUSRule {
 		// The key of the second map:  the item "b" in the right side of the rule
 		// The value in the second map:  the estimated utility of the rule and sequence ids for that rule
 		Map<Integer,Map<Integer, EstimatedUtilityAndSequences>> mapItemItemEstimatedUtility = new HashMap<Integer,Map<Integer, EstimatedUtilityAndSequences>>();
-		
-		// initialize REUCM
 		REUCM = new HashMap<Integer, HashMap<Integer, Double>>();
 		
 		// For each sequence
@@ -355,12 +350,8 @@ public class AlgoUSRule {
 				// For each item  X 
 				for (int j = 0; j < itemset.size(); j++) {
 					Integer itemX = itemset.get(j);
-					
 					for(int t = j+1; t < itemset.size(); t++) {
-						// Get the HashMap
 						HashMap<Integer, Double> mapA = REUCM.get(itemX);
-						// Update REUCP(itemX, itemset.get(t))
-						// They are in the same itemset
 						if(mapA == null) {
 							mapA = new HashMap<Integer, Double>();
 							mapA.put(itemset.get(t), sequence.exactUtility);
@@ -536,10 +527,6 @@ public class AlgoUSRule {
 					int positionAlphaItem =-1;
 					int positionBetaItem =-1;
 	
-					// (1) We will scan the sequence from left to right to find X
-					// and stop at the first position ALPHA where X has been seen completely.
-					// At the same time, we will add the utility of items in X.
-					
 					// For each itemset I 
 		loop1:		for (int i = 0; i< sequence.getItemsets().size(); i++) {
 						// get the itemset I
@@ -579,10 +566,6 @@ public class AlgoUSRule {
 					if(element.positionAlphaItemset == -1){
 						continue;
 					}
-	
-					// (2) Now we will scan the sequence from right to left to find
-					//  Y and stop if we find it. That position where we find it will be called beta.
-					// At the same time as we scan the sequence, we will add the utility of items in Y
 					
 					// for each itemset starting from the last one until itemset alpha+1
 		loop2:	for (int i = sequence.getItemsets().size()-1; 
@@ -620,23 +603,16 @@ public class AlgoUSRule {
 					 if(element.positionBetaItemset == -1){
 						 continue;
 					 } 
+
+					List<Integer> itemsetAlpha = sequence.getItemsets().get(element.positionAlphaItemset);
+					// FOR EACH ITEM J IN THE ALPHA ITEMSET
+					for (int j = positionAlphaItem + 1; j < itemsetAlpha.size(); j++) {
+
+						// we add the utility of the item to the ULeft value of the current element.
+						double profitPositionIJ = sequence.getUtilities().get(element.positionAlphaItemset).get(j);
+						element.ULeft += profitPositionIJ;
+					}
 	
-					 // (3) THIRD STEP:  WE WILL SCAN THE SEQUENCE BETWEEN THE ALPHA
-					 // AND BETA POSITIONS WHERE WE HAVE STOPPED TO CALCUlATE THE "LRUTIL" VALUE
-					 // FOR X ->Y in that SEQUENCE
-			
-					 // (A) WE SCAN THE ALPHA ITEMSET
-						List<Integer> itemsetAlpha = sequence.getItemsets().get(element.positionAlphaItemset);
-						// FOR EACH ITEM J IN THE ALPHA ITEMSET
-						for (int j = positionAlphaItem + 1; j < itemsetAlpha.size(); j++) {
-	
-							// we add the utility of the item to the ULeft value of the current element.
-							double profitPositionIJ = sequence.getUtilities().get(element.positionAlphaItemset).get(j);
-							element.ULeft += profitPositionIJ;
-						}
-	
-					 
-					// (B) Scan the other itemsets after the alpha itemset but before the beta itemset
 					for (int i = element.positionAlphaItemset+1; i < element.positionBetaItemset; i++) {
 							// get the itemset
 							List<Integer> itemset = sequence.getItemsets().get(i);
@@ -665,8 +641,7 @@ public class AlgoUSRule {
 								}
 							}
 					 }
-					
-					// (c) Scan item in the itemset BETA after the item beta (i.e. the item Y)
+
 					List<Integer> itemset = sequence.getItemsets().get(element.positionBetaItemset);
 					
 					// For each item J after the beta item (i.e. the item Y)
@@ -681,7 +656,6 @@ public class AlgoUSRule {
 						}
 					}
 	
-					// calculate the REEU of the rule X -> Y in this sequence
 					element.calculateREEU();
 					
 					// Finally, we add the element of this sequence to the RE-table of X->Y
@@ -826,8 +800,6 @@ public class AlgoUSRule {
 			// Get the sequence
 			SequenceWithUtility sequence = database.getSequences().get(element.numeroSequence);
 			
-			// Case 1: for each itemset in BETA or AFTER BETA.....
-			// For each itemset after beta:
 			for(int i = element.positionBetaItemset; i < sequence.size(); i++){
 				// get the itemset
 				List<Integer> itemsetI = sequence.getItemsets().get(i);
@@ -929,17 +901,7 @@ public class AlgoUSRule {
 					tableItemJ.addElement(newElement);
 				}
 			}
-			
-			// CAS 2 : For each itemset from itemset BETA - 1 to itemset ALPHA + 1
-			// in the sequence
-			// For each itemset before the BETA itemset, we will scan the sequence
-			
-			// We will look here for the case where an item J is added to the right side of a rule
-			// but it is an item found between the left side and right side of the rule in the sequence.
-			// In that case, the position beta will change to a new position that we will call beta prime.
-			
-			// These two variable will be used to sum the utility of ULeftRight and ULeft
-			// after beta has changed
+
 			int sumULeftRightUntilBetaPrime = 0;
 			int sumUtilityLeftUntilBetaPrime = 0;
 			
@@ -1005,13 +967,7 @@ public class AlgoUSRule {
 						// Set the ULeftRight value similarly
 						newElement.ULeftRight = element.ULeftRight - sumULeftRightUntilBetaPrime;
 	
-						// Now we will scan the sequence from position beta prime and after
-						// to calculate:
-						// 1) the utility of all items D that are smaller than item J in beta prime
-						// or after and can be added to the right side of the rule
 						int sumUtilityRUtilItemsSmallerThanX = 0;
-						// 2) the utility of all items D that are smaller than item J  in beta prime
-						// or afters and can be added to the left or right side of the rule
 						int sumUtilityLRUtilItemsSmallerThanX = 0;
 						
 						// for each such itemset
@@ -1057,7 +1013,6 @@ public class AlgoUSRule {
 						// We have finished creating the element for that sequence for the new rule
 						// so we will add it to the RE-table
 						tableItemJ.addElement(newElement);
-						//===========
 						
 					}else if(isLeftRight){
 						// use REUCP
@@ -1076,10 +1031,7 @@ public class AlgoUSRule {
 							sumULeftRightUntilBetaPrime += sequence.getUtilities().get(i).get(j);
 							continue;
 						}
-						
-						// If the item can be added to the left or right side of the rule
-						// We will update the RE-table the new rule with this item on the
-						//  right side ====================
+
 						// Get the table
 						REtable tableItemJ = mapItemsTables.get(itemJ);
 						if(tableItemJ == null){
@@ -1107,12 +1059,6 @@ public class AlgoUSRule {
 						newElement.ULeftRight = element.ULeftRight - profitItemJ - sumULeftRightUntilBetaPrime;
 						
 						sumULeftRightUntilBetaPrime += profitItemJ;
-						
-						// We will scan the beta prime itemset and the following itemsets
-						// to calculate
-						// 1) the profit of all items that can be added on the right side of the rule
-						//  which are smaller than J in the beta prime itemset, or appear in a following
-						// itemset
 						
 						int sumUtilityRigthItemSmallerThanX = 0;
 						
@@ -1153,7 +1099,6 @@ public class AlgoUSRule {
 						// The left side of the rule has not changed, so Alpha stay the same.
 						newElement.positionAlphaItemset = element.positionAlphaItemset; 
 
-						
 						// calculate the REEU of the rule in this ElementREtable
 						newElement.calculateREEU();
 						
@@ -1275,20 +1220,16 @@ public class AlgoUSRule {
 					if(itemJ <= largestItemInAntecedent){
 						continue;
 					}
-					
-					// use REUCP
 					if(REUCM.get(itemJ).get(largestItemInConsequent) == null) {
 						continue;
 					}
 					
-					// update RSU-table
 					if(RSUTable.get(itemJ) == null) {
 						RSUTable.put(itemJ, element.LEEU);
 					}else {
 						RSUTable.put(itemJ, element.LEEU + RSUTable.get(itemJ));
 					}
-					
-					// use RERSUP
+
 					if(RSUTable.get(itemJ) + REtable.LEEU < minutil) {
 						continue;
 					}
@@ -1469,13 +1410,11 @@ public class AlgoUSRule {
 		// Key: an item appended to the rule     Value: the LE-table of the corresponding new rule
 		Map<Integer, LEtable> mapItemLEtable = new HashMap<Integer, LEtable>();
 
-		// initialize the RSU-table
 		Map<Integer, Double> RSUTable = new HashMap<Integer, Double>();
 		
 		// for each sequence containing the rule (a line in the RE-table of the original rule)
 		for(ElementLEtable element : LEtable.elements){
 			
-			// update RRSU
 			LEtable.LEEU -= element.LEEU;
 			
 			// if the ULeft is 0 for that rule in that sequence,
@@ -1503,26 +1442,21 @@ public class AlgoUSRule {
 					if(itemJ <= largestItemInAntecedent){
 						continue;
 					}
-					
-					// use REUCP
+
 					if(REUCM.get(itemJ).get(largestItemInConsequent) == null) {
 						continue;
 					}
-					
-					// update RSU-table
+
 					if(RSUTable.get(itemJ) == null) {
 						RSUTable.put(itemJ, element.LEEU);
 					}else {
 						RSUTable.put(itemJ, element.LEEU + RSUTable.get(itemJ));
 					}
-					
-					// use LERSUP
+
 					if(RSUTable.get(itemJ) + LEtable.LEEU < minutil) {
 						continue;
 					}
 					
-					// Otherwise, we need to update the RE-table of the item 
-					// Get the LE-table of the item
 					LEtable tableItemJ = mapItemLEtable.get(itemJ);
 					if(tableItemJ == null){
 						// if no LE-table, we create one
@@ -1541,12 +1475,6 @@ public class AlgoUSRule {
 					
 					// The ULeft value is updated by subtracting the utility of the item
 					newElement.ULeft = element.ULeft - utilityItemJ;
-					
-					// Then, we will scan itemsets from the first one until the beta -1  itemset 
-					// in the sequence.
-					// We will subtract the utility of items that are smaller than item J 
-					// according to the lexicographical order from ULeft because they
-					// cannot be added anymore to the new rule.
 					
 					// for each itemset
 					for(int z=0; z < positionBetaItemset; z++){
@@ -1568,8 +1496,6 @@ public class AlgoUSRule {
 						}
 					}
 
-					
-					// calculate the LEEU of the rule in this ElementLEtable
 					newElement.calculateLEEU();
 					
 					// Now that we have created the element for that sequence and that new rule
@@ -1648,7 +1574,7 @@ public class AlgoUSRule {
 	 */
 	public void printStats() {
 		System.out.println("==============================================================================");
-		System.out.println("---- US-Rule V4.0 (ALL) algorithm for high utility sequential rule mining ----");
+		System.out.println("---- US-Rule algorithm for high utility sequential rule mining ----");
 		System.out.println("==============================================================================");
 		System.out.println("\tminutil: " + minutil);
 		System.out.println("\tSequential rules count: " + ruleCount);
@@ -1984,9 +1910,6 @@ public class AlgoUSRule {
 		}
 		
 		
-		/**
-		 * Calculate the REEU of this sequence
-		 */
 		public void calculateREEU() {
 			if(ULeftRight != 0) {
 				LEEU = utility + ULeftRight + ULeft;
