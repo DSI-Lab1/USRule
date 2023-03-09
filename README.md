@@ -1,5 +1,5 @@
 # US-Rule
-This repo hosts the code for paper **"US-Rule: Discovering Utility-driven Sequential Rules", ACM Transactions on Knowledge Discovery from Data, Gengsen Huang, Wensheng Gan, Jian Weng, and Philip S. YU, 2023**.
+This repo hosts the code for paper **"US-Rule: Discovering Utility-driven Sequential Rules", ACM Transactions on Knowledge Discovery from Data, Gengsen Huang, Wensheng Gan, Jian Weng, and Philip S. Yu, 2023**.
 
 
 ## Requirements
