@@ -23,7 +23,7 @@ If this article or code useful for your project, please refer to
   number={1},
   pages={1--22},
   year={2023},
-  publisher={ACM New York, NY, USA}}
+  publisher={ACM New York, NY, USA}
 }
 
 ```
