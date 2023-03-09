@@ -1,5 +1,5 @@
 # US-Rule
-This repo hosts the code for paper **"US-Rule: Discovering Utility-driven Sequential Rules", ACM Transactions on Knowledge Discovery from Data, Gengsen Huang, Wensheng Gan, Jian Weng, and Philip S. YU, 2022**.
+This repo hosts the code for paper **"US-Rule: Discovering Utility-driven Sequential Rules", ACM Transactions on Knowledge Discovery from Data, Gengsen Huang, Wensheng Gan, Jian Weng, and Philip S. YU, 2023**.
 
 
 ## Requirements
@@ -15,12 +15,17 @@ A simple way is to run MainTestUSRule_saveToFile.java.
 ## Citation
 If this article or code useful for your project, please refer to
 ```xml
-@article{huang2021us,
+@article{huang2023us,
   title={{US-Rule}: Discovering Utility-driven Sequential Rules},
   author={Huang, Gengsen and Gan, Wensheng and Weng, Jian and Yu, Philip S},
-  journal={arXiv preprint arXiv:2111.15020},
-  year={2021}
+  journal={ACM Transactions on Knowledge Discovery from Data},
+  volume={17},
+  number={1},
+  pages={1--22},
+  year={2023},
+  publisher={ACM New York, NY, USA}}
 }
+
 ```
 
 
