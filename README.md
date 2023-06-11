@@ -12,7 +12,7 @@ A simple way is to run MainTestUSRule_saveToFile.java.
 - Additional datasets can be accessed from [SPMF](http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php).
 
 ## Introduction
-The US-Rule algorithm is proposed to efficiently mine high-utility sequential rules. To improve the efficiency on dense and long sequence datasets, four tighter upper bounds (LEEU, REEU, LERSU, RERSU) and their corresponding pruning strategies (LEEUP, REEUP, LERSUP, RERSUP) are designed. Besides, US-Rule also utilizes rule estimated utility co-occurrence pruning strategy (REUCP) to avoid meaningless computation and the rule estimated utility recomputing pruning strategy (REURP) to deal with sparse datasets.
+The US-Rule algorithm is proposed to efficiently mine high-utility sequential rules. To improve the efficiency on dense and long sequence datasets, four tighter upper bounds (LEEU, REEU, LERSU, RERSU) and their corresponding pruning strategies (LEEUP, REEUP, LERSUP, RERSUP) are designed. Besides, US-Rule also utilizes rule estimated utility co-occurrence pruning strategy (REUCP) to avoid meaningless computation and rule estimated utility recomputing pruning strategy (REURP) to deal with sparse datasets.
 
 ## Citation
 If this article or code useful for your project, please refer to
