@@ -11,7 +11,7 @@ A simple way is to run MainTestUSRule_saveToFile.java.
 - The data format used is the same as in the file data.txt. That is, different positive integers represent different terms. In addition, "-1" is used as the itemset separator and "-2" is used as the sequence separator.
 - Additional datasets can be accessed from [SPMF](http://www.philippe-fournier-viger.com/spmf/index.php?link=datasets.php).
 
-## Introduce
+## Introduction
 The US-Rule algorithm is proposed to efficiently mine high-utility sequential rules. To improve the efficiency on dense and long sequence datasets, four tighter upper bounds (LEEU, REEU, LERSU, RERSU) and their corresponding pruning strategies (LEEUP, REEUP, LERSUP, RERSUP) are designed. Besides, US-Rule also utilizes rule estimated utility co-occurrence pruning strategy (REUCP) to avoid meaningless computation and the rule estimated utility recomputing pruning strategy (REURP) to deal with sparse datasets.
 
 ## Citation
